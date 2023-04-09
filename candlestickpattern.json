@@ -1,0 +1,34 @@
+!pip install yfinance
+!pip install mplfinance
+import pandas as pd
+%matplotlib inline
+import datetime as dt
+import pandas_datareader as web
+import mplfinance as mpf
+#getting the stock
+df = pd.read_csv('adanicsv.csv')
+df
+# no. of rows and columns
+df.shape
+#grouping into 22 days and find their average
+close_groups = df['Close'].groupby(df.index // 22).mean()
+close_groups.head
+df.columns
+df.Date=pd.to_datetime(df.Date)
+df.info()df=df.set_index('Date')
+dfdf['Close'].size
+print(mpf.available_styles())
+# closing price history
+import matplotlib.pyplot as plt
+plt.figure(figsize=(16,8))
+plt.title('Closing price history')
+plt.plot(df['Close'])
+plt.xlabel('Date', fontsize=18)
+plt.ylabel('Closing price ', fontsize=18)
+plt.show()colors = mpf.make_marketcolors(up="#00ff00",
+                               down="#ff0000",
+                               wick="inherit",
+                               edge="inherit",
+                               volume="in")
+mpf_style = mpf.make_mpf_style(base_mpf_style='yahoo', marketcolors=colors)
+mpf.plot(df, type='candle', style=mpf_style, volume=True)
